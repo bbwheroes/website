@@ -9,7 +9,6 @@ import ServiceCard from "./_components/Services/ServiceCard";
 export default function Home() {
   return (
     <main>
-      <Navigation />
       <hr className="border-gray-800" />
       <section className="px-12 py-32">
         <h1 className="mb-12 text-center text-5xl font-medium text-white md:text-7xl">

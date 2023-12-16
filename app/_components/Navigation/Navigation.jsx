@@ -12,7 +12,9 @@ export default function Navigation() {
       </Link>
       <div className="flex items-center gap-8">
         <NavLink href="/">Projects</NavLink>
-        <NavLink href="/">Wiki</NavLink>
+        <NavLink href="/wiki" target="_blank">
+          Wiki <FaExternalLinkAlt className="text-xs" />
+        </NavLink>
         <NavLink href="https://discord.gg/xbUfU4FYSc" target="_blank">
           Discord
           <FaExternalLinkAlt className="text-xs" />
