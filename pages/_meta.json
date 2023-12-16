@@ -3,5 +3,10 @@
     "title": "Wiki",
     "type": "page",
     "display": "hidden"
+  },
+  "home": {
+    "title": "Home",
+    "type": "page",
+    "href": "/"
   }
 }
