@@ -5,7 +5,7 @@ export default function ServiceCard({ icon, title, description, link, comingSoon
   return (
     <div
       className={`${
-        comingSoon && "opacity-50"
+        comingSoon ? "opacity-50" : "shadow-sm shadow-gray-700"
       } flex h-full w-full items-center justify-between gap-4 rounded-md bg-gray-800 p-5 text-white`}
     >
       <div className="flex items-center gap-4">

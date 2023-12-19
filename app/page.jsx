@@ -5,11 +5,25 @@ import NavLink from "./_components/Navigation/NavLink";
 import { FaBook, FaCode, FaFile, FaGlobe, FaLink, FaServer } from "react-icons/fa";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import ServiceCard from "./_components/Services/ServiceCard";
+import Projects from "./_components/Projects/Projects";
+import sql from "./_helpers/db";
 
-export default function Home() {
+export default async function Home() {
+  const projects = await sql`SELECT id,
+                                    module,
+                                    teacher,
+                                    task_name,
+                                    slugified_task_name,
+                                    username
+                              FROM projects
+                              WHERE open_proposal = false`;
+  const projectsCountRes = await sql`SELECT COUNT(*)
+                                      FROM projects
+                                      WHERE open_proposal = false`;
+  const projectsCount = projectsCountRes[0].count;
+
   return (
     <main>
-      <hr className="border-gray-800" />
       <section className="px-12 py-32">
         <h1 className="mb-12 text-center text-5xl font-medium text-white md:text-7xl">
           Where BBW students come together and create a community.
@@ -70,9 +84,9 @@ export default function Home() {
       <hr className="border-gray-800" />
       <section className="px-12 py-16">
         <h2 className="mb-12 text-center text-2xl text-white md:text-4xl">
-          Search from <strong>27</strong> projects
+          Search from <strong>{projectsCount}</strong> projects
         </h2>
-        <div className="grid w-full items-center gap-4 md:grid-cols-2"></div>
+        <Projects projectsData={projects} limit={10} />
       </section>
     </main>
   );

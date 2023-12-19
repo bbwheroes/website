@@ -3,7 +3,7 @@ import "./globals.css";
 import Navigation from "./_components/Navigation/Navigation";
 
 const asap = Asap({
-  weight: ["400", "500"],
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
 });
 
@@ -16,7 +16,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={asap.className}>
       <body>
-        <Navigation />
+        <div className="border-b border-gray-800">
+          <Navigation />
+        </div>
         {children}
       </body>
     </html>
