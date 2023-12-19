@@ -7,6 +7,8 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 import ServiceCard from "./_components/Services/ServiceCard";
 import Projects from "./_components/Projects/Projects";
 import sql from "./_helpers/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./_lib/auth";
 
 export default async function Home() {
   const projects = await sql`SELECT id,

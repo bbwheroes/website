@@ -3,8 +3,13 @@ import Link from "next/link";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import ContributeLink from "./ContributeLink";
 import NavLink from "./NavLink";
+import Profile from "./Profile";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/_lib/auth";
 
-export default function Navigation() {
+export default async function Navigation() {
+  const { user } = await getServerSession(authOptions);
+
   return (
     <nav className="m-auto flex w-full max-w-7xl items-center justify-between px-12 py-4 font-medium">
       <Link href="/">
@@ -20,6 +25,9 @@ export default function Navigation() {
           <FaExternalLinkAlt className="text-xs" />
         </NavLink>
         <ContributeLink />
+        {user &&
+          <Profile user={user} />
+        }
       </div>
     </nav>
   );
