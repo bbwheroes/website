@@ -8,4 +8,23 @@ const sql = postgres({
   idle_timeout: 20,
 });
 
+export async function getProjects() {
+  return await sql`SELECT id,
+                      module,
+                      teacher,
+                      task_name,
+                      slugified_task_name,
+                      username
+                    FROM projects
+                    WHERE open_proposal = false`;
+}
+
+export async function getProjectsCount() {
+  const projectsCountRes = await sql`SELECT COUNT(*)
+                                      FROM projects
+                                      WHERE open_proposal = false`;
+  
+  return projectsCountRes[0].count;
+}
+
 export default sql;

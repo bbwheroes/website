@@ -1,19 +1,9 @@
 import Projects from "../_components/Projects/Projects";
-import sql from "../_helpers/db";
+import { getProjects, getProjectsCount } from "../_helpers/db";
 
 export default async function ProjectsOverview() {
-  const projects = await sql`SELECT id,
-                                    module,
-                                    teacher,
-                                    task_name,
-                                    slugified_task_name,
-                                    username
-                              FROM projects
-                              WHERE open_proposal = false`;
-  const projectsCountRes = await sql`SELECT COUNT(*)
-                                      FROM projects
-                                      WHERE open_proposal = false`;
-  const projectsCount = projectsCountRes[0].count;
+  const projects = await getProjects();
+  const projectsCount = await getProjectsCount();
 
   return (
     <section className="px-12 py-16">

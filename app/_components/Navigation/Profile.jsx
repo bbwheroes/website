@@ -1,11 +1,11 @@
 import { authOptions } from "@/app/_lib/auth";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
-import { FaChevronDown } from "react-icons/fa";
+import ProfileDropdown from "./ProfileDropdown";
 
 export default async function Profile({ user }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center rounded-full bg-gray-800">
       <Image
         src={user.image}
         alt="Profile Picture"
@@ -13,7 +13,7 @@ export default async function Profile({ user }) {
         height={36}
         className="rounded-full"
       />
-      <FaChevronDown className="text-xs text-white hover:text-gray-400" />
+      <ProfileDropdown />
     </div>
   );
 }

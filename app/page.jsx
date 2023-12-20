@@ -6,29 +6,19 @@ import { FaBook, FaCode, FaFile, FaGlobe, FaLink, FaServer } from "react-icons/f
 import { FaArrowTrendUp } from "react-icons/fa6";
 import ServiceCard from "./_components/Services/ServiceCard";
 import Projects from "./_components/Projects/Projects";
-import sql from "./_helpers/db";
+import { getProjects, getProjectsCount } from "./_helpers/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./_lib/auth";
 
 export default async function Home() {
-  const projects = await sql`SELECT id,
-                                    module,
-                                    teacher,
-                                    task_name,
-                                    slugified_task_name,
-                                    username
-                              FROM projects
-                              WHERE open_proposal = false`;
-  const projectsCountRes = await sql`SELECT COUNT(*)
-                                      FROM projects
-                                      WHERE open_proposal = false`;
-  const projectsCount = projectsCountRes[0].count;
+  const projects = await getProjects();
+  const projectsCount = await getProjectsCount();
 
   return (
     <main>
       <section className="px-12 py-32">
         <h1 className="mb-12 text-center text-5xl font-medium text-white md:text-7xl">
-          Where BBW students come together and create a community.
+          Where BBW students come together and form a community.
         </h1>
         <div className="flex justify-center gap-4">
           <NavLink

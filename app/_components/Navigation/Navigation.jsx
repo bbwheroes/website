@@ -16,7 +16,7 @@ export default async function Navigation() {
       <Link href="/">
         <Image src="bbwheroes.svg" alt="BBW Heroes Logo" width={100} height={100} />
       </Link>
-      <div className="flex items-center gap-8">
+      <ul className="flex items-center gap-8">
         <NavLink href="/projects">Projects</NavLink>
         <NavLink href="/wiki" target="_blank">
           Wiki <FaExternalLinkAlt className="text-xs" />
@@ -27,7 +27,7 @@ export default async function Navigation() {
         </NavLink>
         <ContributeLink />
         {user && <Profile user={user} />}
-      </div>
+      </ul>
     </nav>
   );
 }
