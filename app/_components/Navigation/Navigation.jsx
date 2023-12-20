@@ -8,7 +8,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/_lib/auth";
 
 export default async function Navigation() {
-  const { user } = await getServerSession(authOptions);
+  const authSession = await getServerSession(authOptions);
+  const user = authSession && authSession.user;
 
   return (
     <nav className="m-auto flex w-full max-w-7xl items-center justify-between px-12 py-4 font-medium">
@@ -25,9 +26,7 @@ export default async function Navigation() {
           <FaExternalLinkAlt className="text-xs" />
         </NavLink>
         <ContributeLink />
-        {user &&
-          <Profile user={user} />
-        }
+        {user && <Profile user={user} />}
       </div>
     </nav>
   );

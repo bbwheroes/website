@@ -3,6 +3,7 @@
 import ProjectRow from "./ProjectRow";
 import ProjectSearch from "./ProjectSearch";
 import { useEffect, useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function Projects({ projectsData, limit }) {
   const [projects, setProjects] = useState(projectsData);
@@ -15,6 +16,8 @@ export default function Projects({ projectsData, limit }) {
     name: "",
     username: "",
   });
+
+  signIn;
 
   useEffect(() => {
     // Put first 10 projects in state
@@ -66,7 +69,9 @@ export default function Projects({ projectsData, limit }) {
   return (
     <>
       <ProjectSearch search={search} setSearch={setSearch} />
-      <p className="text-gray-500 italic mb-1">Showing <span className="font-bold">{searchedProjects.length}</span> results</p>
+      <p className="mb-1 italic text-gray-500">
+        Showing <span className="font-bold">{searchedProjects.length}</span> results
+      </p>
       <ul className="flex flex-col gap-4">
         {searchedProjects.map((project) => (
           <ProjectRow project={project} key={project.id} />

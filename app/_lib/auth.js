@@ -1,5 +1,5 @@
-import { NextAuthOptions } from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
+import { NextAuthOptions } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
 
 export const authOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work

@@ -6,11 +6,13 @@ const withNextra = require("nextra")({
   defaultShowCopyCode: true,
 });
 
-module.exports = withNextra({ images: {
-  remotePatterns: [
-    {
-      protocol: 'https',
-      hostname: 'avatars.githubusercontent.com',
-    },
-  ],
-}, });
+module.exports = withNextra({
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+    ],
+  },
+});
