@@ -28,7 +28,7 @@ export default function ProjectSearch({ search, setSearch }) {
         type="number"
         name="module"
         id="module"
-        placeholder="165"
+        placeholder="431"
         className="box-content w-[3ch] rounded-l-lg border-2 border-gray-600 bg-gray-700 px-3 py-1"
         value={search.module}
         onChange={handleModuleChange}
@@ -38,7 +38,7 @@ export default function ProjectSearch({ search, setSearch }) {
         type="text"
         name="teacher"
         id="teacher"
-        placeholder="nini"
+        placeholder="ober"
         className="box-content w-[4ch]  border-2 border-gray-600 bg-gray-700 px-3 py-1"
         value={search.teacher}
         onChange={handleTeacherChange}
@@ -49,7 +49,7 @@ export default function ProjectSearch({ search, setSearch }) {
         name="name"
         id="name"
         className="box-content w-[32ch] border-2 border-gray-600 bg-gray-700 px-3 py-1"
-        placeholder="MongoDB Quiz"
+        placeholder="Linux Cookbook"
         value={search.name}
         onChange={handleNameChange}
       />

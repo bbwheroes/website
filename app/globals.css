@@ -6,7 +6,8 @@ body {
   @apply bg-gray-900;
 }
 
-section {
+section,
+main {
   @apply m-auto max-w-5xl;
 }
 
@@ -14,9 +15,9 @@ section input {
   @apply outline-none;
 }
 
-search > input[type="number"],
-search > input[type="number"]::-webkit-outer-spin-button,
-search > input[type="number"]::-webkit-inner-spin-button {
+input[type="number"],
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   -moz-appearance: textfield;
   margin: 0;

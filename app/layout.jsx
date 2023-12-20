@@ -20,6 +20,11 @@ export default function RootLayout({ children }) {
           <Navigation />
         </div>
         {children}
+        <script
+          defer
+          data-domain="jannismilz.com"
+          src="https://analytics.aquahub.studio/js/script.js"
+        ></script>
       </body>
     </html>
   );

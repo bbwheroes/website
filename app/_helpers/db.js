@@ -23,7 +23,7 @@ export async function getProjectsCount() {
   const projectsCountRes = await sql`SELECT COUNT(*)
                                       FROM projects
                                       WHERE open_proposal = false`;
-  
+
   return projectsCountRes[0].count;
 }
 
