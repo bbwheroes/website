@@ -38,28 +38,29 @@ export default function Contribute() {
 
   useEffect(() => {
     const moduleValidation = moduleSchema.safeParse(parseInt(module));
-    if (!moduleValidation.success) setErrors({ module: moduleValidation.error.issues[0].message, ...errors});
-    
-    const teacherValidation = teacherSchema.safeParse(teacher)
-    if (!teacherValidation.success) setErrors({ teacher: teacherValidation.error.issues[0].message, ...errors});
-    
-    const taskNameValidation = taskNameSchema.safeParse(taskName)
-    if (!taskNameValidation.success) setErrors({ taskName: taskNameValidation.error.issues[0].message, ...errors});
-  }, [module, teacher, taskName, collaborators])
+    if (!moduleValidation.success)
+      setErrors({ module: moduleValidation.error.issues[0].message, ...errors });
+
+    const teacherValidation = teacherSchema.safeParse(teacher);
+    if (!teacherValidation.success)
+      setErrors({ teacher: teacherValidation.error.issues[0].message, ...errors });
+
+    const taskNameValidation = taskNameSchema.safeParse(taskName);
+    if (!taskNameValidation.success)
+      setErrors({ taskName: taskNameValidation.error.issues[0].message, ...errors });
+  }, [module, teacher, taskName, collaborators]);
 
   return (
     <main className="max-w-3xl px-12 py-16">
-      <h1 className="text-center text-2xl text-white md:text-4xl">
-        Create a proposal
-      </h1>
-      <p className="text-gray-400 my-12">
+      <h1 className="text-center text-2xl text-white md:text-4xl">Create a proposal</h1>
+      <p className="my-12 text-gray-400">
         We appreciate that you want contribute to this network. Please fill out this quick
         proposal and after a quick review you should get notifed by email. After an
         approval we run every necessary process to create your environment.{" "}
         <Link
           href="https://github.com/bbwheroes/system/tree/main/processes"
           target="_blank"
-          className="text-bbw-400 hover:text-bbw-500 duration-100 underline"
+          className="text-bbw-400 underline duration-100 hover:text-bbw-500"
         >
           More informations here.
         </Link>
@@ -111,7 +112,12 @@ export default function Contribute() {
           setCollaborators={setCollaborators}
         />
 
-        <button className="bg-bbw-400 w-min px-4 py-2 rounded-md text-gray-900 font-medium hover:bg-bbw-500 duration-100 m-auto" type="submit">Submit</button>
+        <button
+          className="m-auto w-min rounded-md bg-bbw-400 px-4 py-2 font-medium text-gray-900 duration-100 hover:bg-bbw-500"
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
     </main>
   );

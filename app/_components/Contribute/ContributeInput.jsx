@@ -11,7 +11,7 @@ export default function ContributeInput({
   value,
   setValue,
   readonly,
-  errors
+  errors,
 }) {
   const handleTeacherChange = (e) => {
     if (readonly || (charLimit && e.target.value.length > charLimit)) return;
@@ -37,7 +37,9 @@ export default function ContributeInput({
         disabled={readonly}
         required
       />
-      {errors && errors[errorName] && <span className="text-red-400">{errors[errorName]}</span>}
+      {errors && errors[errorName] && (
+        <span className="text-red-400">{errors[errorName]}</span>
+      )}
     </div>
   );
 }
