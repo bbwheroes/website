@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ContributeInput from "../_components/Contribute/ContributeInput";
-import { z } from "zod";
 import CollaboratorsInput from "../_components/Contribute/CollaboratorsInput";
+import { moduleValidator, taskNameValidator, teacherValidator } from "../_lib/validators";
+import { slugifyTaskName } from "../_helpers/functions";
 
 export default function Contribute() {
   const [module, setModule] = useState("");
@@ -12,42 +13,26 @@ export default function Contribute() {
   const [taskName, setTaskName] = useState("");
   const [slugifiedTaskName, setSlugifiedTaskName] = useState("");
   const [collaborators, setCollaborators] = useState([]);
-
-  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    let slug = taskName.toLowerCase();
-    slug = slug.replace(/[\s\W]+/g, "_");
-
-    setSlugifiedTaskName(slug);
+    setSlugifiedTaskName(slugifyTaskName(taskName));
   }, [taskName]);
 
-  const moduleSchema = z.number().positive().finite().gte(100).lte(999);
-  const teacherSchema = z
-    .string()
-    .min(4)
-    .max(4)
-    .regex(/^[a-z][A-Z]$/, { message: "Must contain only letters" });
-  const taskNameSchema = z
-    .string()
-    .min(6)
-    .regex(/^[a-zA-Z][a-zA-Z ]*[a-zA-Z]$/, {
-      message:
-        "Must contain only letters and whitespaces and not start or end with a whitespace",
-    });
-
   useEffect(() => {
-    const moduleValidation = moduleSchema.safeParse(parseInt(module));
-    if (!moduleValidation.success)
-      setErrors({ module: moduleValidation.error.issues[0].message, ...errors });
+    const moduleValidation = moduleValidator.safeParse(parseInt(module));
+    const teacherValidation = teacherValidator.safeParse(teacher);
+    const taskNameValidation = taskNameValidator.safeParse(taskName);
 
-    const teacherValidation = teacherSchema.safeParse(teacher);
-    if (!teacherValidation.success)
-      setErrors({ teacher: teacherValidation.error.issues[0].message, ...errors });
+    if (
+      !moduleValidation.success ||
+      !teacherValidation.success ||
+      !taskNameValidation.success
+    ) {
+      return setIsValid(false);
+    }
 
-    const taskNameValidation = taskNameSchema.safeParse(taskName);
-    if (!taskNameValidation.success)
-      setErrors({ taskName: taskNameValidation.error.issues[0].message, ...errors });
+    return setIsValid(true);
   }, [module, teacher, taskName, collaborators]);
 
   return (
@@ -69,33 +54,30 @@ export default function Contribute() {
       <form className="flex flex-col gap-6 text-white">
         <ContributeInput
           name="Module number"
-          errorName="module"
           type="number"
           placeholder="431"
           charLimit={3}
           value={module}
           setValue={setModule}
-          errors={errors}
+          validationSchema={moduleValidator}
         />
         <ContributeInput
           name="Teacher (first 4 letters only)"
-          errorName="teacher"
           type="text"
           placeholder="ober"
           charLimit={4}
           value={teacher}
           setValue={setTeacher}
-          errors={errors}
+          validationSchema={teacherValidator}
         />
 
         <ContributeInput
           name="Complete task name"
-          errorName="taskName"
           type="text"
           placeholder="Linux Cookbook"
           value={taskName}
           setValue={setTaskName}
-          errors={errors}
+          validationSchema={taskNameValidator}
         />
 
         <ContributeInput
@@ -107,14 +89,16 @@ export default function Contribute() {
         />
 
         <CollaboratorsInput
-          errorName="collaborators"
           collaborators={collaborators}
           setCollaborators={setCollaborators}
         />
 
         <button
-          className="m-auto w-min rounded-md bg-bbw-400 px-4 py-2 font-medium text-gray-900 duration-100 hover:bg-bbw-500"
+          className={`m-auto w-min rounded-md  bg-bbw-400 px-4 py-2 font-medium text-gray-900 duration-100 ${
+            isValid ? "hover:bg-bbw-500" : "cursor-not-allowed opacity-50"
+          }`}
           type="submit"
+          disabled={!isValid}
         >
           Submit
         </button>

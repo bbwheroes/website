@@ -27,4 +27,14 @@ export async function getProjectsCount() {
   return projectsCountRes[0].count;
 }
 
+export async function upsertUser(githubUserId, bbwEmail = null, discordId = null) {
+  return await sql`INSERT INTO users (github_id, bbw_email, discord_id)
+                    VALUES (${githubUserId}, ${bbwEmail}, ${discordId})
+                    ON CONFLICT (github_id)
+                    DO UPDATE SET
+                      bbw_email = ${bbwEmail},
+                      discord_id = ${discordId}
+                    RETURNING *`;
+}
+
 export default sql;

@@ -6,18 +6,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 function SignInComponent() {
   const router = useRouter();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const searchParams = useSearchParams();
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      void signIn("github");
+      signIn("github");
     } else if (status === "authenticated") {
       const callbackUrl = window.location.search.includes("callbackUrl=")
         ? decodeURIComponent(window.location.search.replace(/^\?callbackUrl=/, ""))
         : "/";
 
-      void router.push(callbackUrl);
+      router.push(callbackUrl);
     }
   }, [status, router]);
 

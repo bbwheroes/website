@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ContributeInput({
-  errorName,
   name,
   type,
   placeholder,
@@ -11,10 +10,33 @@ export default function ContributeInput({
   value,
   setValue,
   readonly,
-  errors,
+  validationSchema,
 }) {
+  const [error, setError] = useState(null);
+
+  // Run validation once on render
+  useEffect(() => {
+    if (!readonly) {
+      const validatedData = validationSchema.safeParse(type === "number" ? null : "");
+
+      if (!validatedData.success) {
+        setError(validatedData.error.issues[0].message);
+      }
+    }
+  }, [validationSchema]);
+
   const handleTeacherChange = (e) => {
+    setError(null);
+
     if (readonly || (charLimit && e.target.value.length > charLimit)) return;
+
+    const validatedData = validationSchema.safeParse(
+      type === "number" ? parseInt(e.target.value) : e.target.value
+    );
+
+    if (!validatedData.success) {
+      setError(validatedData.error.issues[0].message);
+    }
 
     setValue(e.target.value);
   };
@@ -31,15 +53,12 @@ export default function ContributeInput({
         placeholder={placeholder}
         value={value}
         onChange={handleTeacherChange}
-        className={`rounded-md border border-gray-600 bg-gray-700 px-3 py-1 font-mono ${
-          charLimit && `box-content w-[${charLimit}ch]`
-        } ${readonly && "opacity-50"}`}
+        className={`rounded-md border border-gray-600 bg-gray-700 px-3 py-1 font-mono ${charLimit && `box-content w-[${charLimit}ch]`
+          } ${readonly && "opacity-50"}`}
         disabled={readonly}
         required
       />
-      {errors && errors[errorName] && (
-        <span className="text-red-400">{errors[errorName]}</span>
-      )}
+      {error && <span className="text-red-400">{error}</span>}
     </div>
   );
 }

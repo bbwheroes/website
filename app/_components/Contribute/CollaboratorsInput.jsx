@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 
-export default function CollaboratorsInput({ key, collaborators, setCollaborators }) {
+export default function CollaboratorsInput({ collaborators, setCollaborators }) {
   const [newCollaborator, setNewCollaborator] = useState("");
   const [error, setError] = useState(null);
 
