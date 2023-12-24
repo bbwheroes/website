@@ -3,7 +3,7 @@ version: '3.9'
 services:
   web:
     container_name: bbwheroes_web
-    env_file: ./.docker.env
+    env_file: ./docker.env
     build:
       context: .
       dockerfile: Dockerfile
