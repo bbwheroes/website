@@ -33,7 +33,7 @@ export default function ProfileDropdown() {
       </button>
       {isOpen && (
         <ul className="absolute right-0 top-10 w-40 list-none rounded-md">
-          <li className="">
+          {/* <li className="">
             <Link
               href="/"
               onClick={() => setIsOpen(false)}
@@ -42,14 +42,14 @@ export default function ProfileDropdown() {
               Profile
             </Link>
           </li>
-          <hr className="w-full border-gray-700" />
+          <hr className="w-full border-gray-700" /> */}
           <li>
             <button
               onClick={() => {
                 setIsOpen(false);
                 signOut({ callbackUrl: "/" });
               }}
-              className="block w-full rounded-b-md bg-gray-800 px-3 py-1.5 text-left text-white duration-100 hover:bg-gray-700"
+              className="block w-full rounded-md bg-gray-800 px-3 py-1.5 text-left text-white duration-100 hover:bg-gray-700"
             >
               Logout
             </button>
