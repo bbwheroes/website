@@ -42,12 +42,12 @@ function buildWebhookData(project, proposal, githubUser) {
           },
           {
             name: "Accept",
-            value: `[Accept](${process.env.APP_URL}/api/proposals/${proposal.id}/accept)`,
+            value: `[Accept](${process.env.NEXT_PUBLIC_APP_URL}/api/proposals/${proposal.id}/accept)`,
             inline: true,
           },
           {
             name: "Reject",
-            value: `[Reject](${process.env.APP_URL}/api/proposals/${proposal.id}/reject)`,
+            value: `[Reject](${process.env.NEXT_PUBLIC_APP_URL}/api/proposals/${proposal.id}/reject)`,
             inline: true,
           },
         ],
