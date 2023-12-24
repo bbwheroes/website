@@ -15,5 +15,5 @@ module.exports = withNextra({
       },
     ],
   },
-  metadataBase: process.env.APP_URL,
+  metadataBase: new URL(process.env.APP_URL),
 });
