@@ -17,6 +17,7 @@ export const metadata = {
   },
   title: "BBW Heroes",
   description: "Where BBW students come together to form a community.",
+  metadataBase: new URL(process.env.APP_URL),
 };
 
 export default function RootLayout({ children }) {
