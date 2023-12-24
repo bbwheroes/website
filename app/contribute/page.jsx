@@ -6,6 +6,7 @@ import ContributeInput from "../_components/Contribute/ContributeInput";
 import CollaboratorsInput from "../_components/Contribute/CollaboratorsInput";
 import { moduleValidator, taskNameValidator, teacherValidator } from "../_lib/validators";
 import { slugifyTaskName } from "../_helpers/functions";
+import { useRouter } from "next/navigation";
 
 export default function Contribute() {
   const [module, setModule] = useState("");
@@ -14,6 +15,8 @@ export default function Contribute() {
   const [slugifiedTaskName, setSlugifiedTaskName] = useState("");
   const [collaborators, setCollaborators] = useState([]);
   const [isValid, setIsValid] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     setSlugifiedTaskName(slugifyTaskName(taskName));
@@ -35,6 +38,24 @@ export default function Contribute() {
     return setIsValid(true);
   }, [module, teacher, taskName, collaborators]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!isValid) return;
+
+    fetch("/api/contribute", {
+      method: "POST",
+      body: JSON.stringify({
+        module,
+        teacher,
+        taskName,
+        collaborators,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        router.push("/");
+      });
+  };
   return (
     <main className="max-w-3xl px-12 py-16">
       <h1 className="text-center text-2xl text-white md:text-4xl">Create a proposal</h1>
@@ -51,7 +72,7 @@ export default function Contribute() {
         </Link>
       </p>
 
-      <form className="flex flex-col gap-6 text-white">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6 text-white">
         <ContributeInput
           name="Module number"
           type="number"

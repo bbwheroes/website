@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Navigation from "./app/_components/Navigation/Navigation";
 import { Navbar } from "nextra-theme-docs";
 
 export default {

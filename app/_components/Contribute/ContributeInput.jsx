@@ -53,8 +53,9 @@ export default function ContributeInput({
         placeholder={placeholder}
         value={value}
         onChange={handleTeacherChange}
-        className={`rounded-md border border-gray-600 bg-gray-700 px-3 py-1 font-mono ${charLimit && `box-content w-[${charLimit}ch]`
-          } ${readonly && "opacity-50"}`}
+        className={`rounded-md border border-gray-600 bg-gray-700 px-3 py-1 font-mono ${
+          charLimit && `box-content w-[${charLimit}ch]`
+        } ${readonly && "opacity-50"}`}
         disabled={readonly}
         required
       />

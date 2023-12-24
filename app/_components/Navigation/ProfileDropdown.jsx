@@ -47,7 +47,7 @@ export default function ProfileDropdown() {
             <button
               onClick={() => {
                 setIsOpen(false);
-                signOut({ callbackUrl: '/' });
+                signOut({ callbackUrl: "/" });
               }}
               className="block w-full rounded-b-md bg-gray-800 px-3 py-1.5 text-left text-white duration-100 hover:bg-gray-700"
             >

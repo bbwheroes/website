@@ -14,11 +14,11 @@ export const authOptions = {
   callbacks: {
     async signIn({ profile }) {
       if (/@lernende.bbw.ch$/.test(profile.email)) {
-        await upsertUser(profile.id, profile.email)
+        await upsertUser(profile.id, profile.email);
       } else {
-        await upsertUser(profile.id)
+        const user = await upsertUser(profile.id);
       }
       return true;
-    }
+    },
   },
 };
