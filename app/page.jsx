@@ -22,7 +22,7 @@ export default async function Home() {
         </h1>
         <div className="flex justify-center gap-4">
           <NavLink
-            href="/"
+            href="/projects"
             className="rounded-lg bg-gray-500 px-3 py-1.5 duration-100 hover:bg-gray-600 hover:text-white"
           >
             <FaBook className="text-xs" />
