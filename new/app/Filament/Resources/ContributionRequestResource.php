@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ContributionRequestResource\Pages;
 use App\Models\ContributionRequest;
 use App\Models\Project;
+use BackedEnum;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -17,7 +18,7 @@ class ContributionRequestResource extends Resource
 {
     protected static ?string $model = ContributionRequest::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-inbox-stack';
 
     protected static ?string $navigationLabel = 'Contribution Requests';
 
@@ -120,7 +121,7 @@ class ContributionRequestResource extends Resource
                     ->visible(fn (ContributionRequest $record) => $record->status === 'pending')
                     ->action(function (ContributionRequest $record) {
                         $record->update(['status' => 'accepted']);
-                        
+
                         // Create project
                         Project::create([
                             'module' => $record->module,
@@ -146,7 +147,7 @@ class ContributionRequestResource extends Resource
                     ->visible(fn (ContributionRequest $record) => $record->status === 'pending')
                     ->action(function (ContributionRequest $record) {
                         $record->update(['status' => 'declined']);
-                        
+
                         // Send Discord notification
                         self::sendDiscordNotification($record, 'declined');
 
@@ -169,7 +170,7 @@ class ContributionRequestResource extends Resource
     protected static function sendDiscordNotification(ContributionRequest $request, string $action): void
     {
         $webhookUrl = config('services.discord.webhook_url');
-        
+
         if (!$webhookUrl) {
             return;
         }
