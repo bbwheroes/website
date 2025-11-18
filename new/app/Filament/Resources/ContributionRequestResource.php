@@ -30,46 +30,26 @@ class ContributionRequestResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('Request Details')
-                    ->schema([
-                        Components\TextInput::make('module')
-                            ->label('Module Number')
-                            ->disabled()
-                            ->maxLength(3),
-                        Components\TextInput::make('teacher')
-                            ->label('Teacher')
-                            ->disabled()
-                            ->maxLength(4),
-                        Components\TextInput::make('task_name')
-                            ->label('Task Name')
-                            ->disabled(),
-                        Components\TextInput::make('slugified_task_name')
-                            ->label('Slugified Task Name')
-                            ->disabled(),
-                        Components\TextInput::make('github_username')
-                            ->label('GitHub Username')
-                            ->disabled(),
-                        Components\TagsInput::make('collaborators')
-                            ->label('Collaborators')
-                            ->disabled(),
-                    ])
-                    ->columns(2),
-                Section::make('Admin Actions')
-                    ->schema([
-                        Components\Select::make('status')
-                            ->options([
-                                'pending' => 'Pending',
-                                'accepted' => 'Accepted',
-                                'declined' => 'Declined',
-                            ])
-                            ->required()
-                            ->default('pending'),
-                        Components\Textarea::make('admin_notes')
-                            ->label('Admin Notes')
-                            ->rows(3)
-                            ->columnSpanFull(),
-                    ])
-                    ->columns(2),
+                Components\TextInput::make('module')
+                    ->label('Module Number')
+                    ->disabled()
+                    ->maxLength(3),
+                Components\TextInput::make('teacher')
+                    ->label('Teacher')
+                    ->disabled()
+                    ->maxLength(4),
+                Components\TextInput::make('task_name')
+                    ->label('Task Name')
+                    ->disabled(),
+                Components\TextInput::make('slugified_task_name')
+                    ->label('Slugified Task Name')
+                    ->disabled(),
+                Components\TextInput::make('github_username')
+                    ->label('GitHub Username')
+                    ->disabled(),
+                Components\TagsInput::make('collaborators')
+                    ->label('Collaborators')
+                    ->disabled(),
             ]);
     }
 
@@ -159,14 +139,7 @@ class ContributionRequestResource extends Resource
                             ->send();
                     }),
                 Actions\ViewAction::make(),
-                Actions\EditAction::make(),
-                Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Actions\BulkActionGroup::make([
-                    Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                ]);
     }
 
     protected static function sendDiscordNotification(ContributionRequest $request, string $action): void
@@ -178,7 +151,7 @@ class ContributionRequestResource extends Resource
         }
 
         $color = $action === 'accepted' ? 3066993 : 15158332; // Green or Red
-        $adminUrl = route('filament.admin.resources.contribution-requests.view', ['record' => $request->id]);
+        $adminUrl = route('filament.admin.resources.contribution-requests.edit', ['record' => $request->id]);
 
         $embed = [
             'title' => $action === 'accepted' ? '✅ Request Accepted' : '❌ Request Declined',
@@ -224,7 +197,6 @@ class ContributionRequestResource extends Resource
         return [
             'index' => Pages\ListContributionRequests::route('/'),
             'view' => Pages\ViewContributionRequest::route('/{record}'),
-            'edit' => Pages\EditContributionRequest::route('/{record}/edit'),
         ];
     }
 }
