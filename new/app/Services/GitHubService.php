@@ -29,24 +29,42 @@ class GitHubService
                     $headers['Authorization'] = "Bearer {$this->token}";
                 }
 
-                $response = Http::withHeaders($headers)
-                    ->get("https://api.github.com/orgs/{$this->organization}/repos", [
-                        'per_page' => 100,
-                        'type' => 'public',
-                    ]);
+                $allRepos = [];
+                $page = 1;
+                $perPage = 100;
 
-                if (!$response->successful()) {
-                    Log::error('GitHub API request failed', [
-                        'status' => $response->status(),
-                        'body' => $response->body(),
-                    ]);
-                    return [];
-                }
+                // Paginate through all pages
+                do {
+                    $response = Http::withHeaders($headers)
+                        ->get("https://api.github.com/orgs/{$this->organization}/repos", [
+                            'per_page' => $perPage,
+                            'page' => $page,
+                            'type' => 'public',
+                        ]);
 
-                $repos = $response->json();
+                    if (!$response->successful()) {
+                        Log::error('GitHub API request failed', [
+                            'status' => $response->status(),
+                            'body' => $response->body(),
+                            'page' => $page,
+                        ]);
+                        break;
+                    }
+
+                    $repos = $response->json();
+                    
+                    if (empty($repos)) {
+                        break;
+                    }
+
+                    $allRepos = array_merge($allRepos, $repos);
+                    $page++;
+
+                    // GitHub returns less than per_page items on the last page
+                } while (count($repos) === $perPage);
 
                 // Filter repositories that match the 4-part format: module-teacher-taskname-username
-                return collect($repos)
+                return collect($allRepos)
                     ->filter(function ($repo) {
                         $parts = explode('-', $repo['name']);
                         return count($parts) >= 4;

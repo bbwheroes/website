@@ -21,6 +21,6 @@
         Search from <strong>{{ $projectsCount }}</strong> projects
     </h2>
     
-    @include('partials.projects-search', ['projects' => $projects, 'limit' => 10])
+    @include('partials.projects-search', ['projects' => $projects])
 </section>
 @endsection

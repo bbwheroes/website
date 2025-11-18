@@ -1,4 +1,4 @@
-<div x-data="projectSearch({{ json_encode($projects) }}, {{ $limit ?? 10 }})">
+<div x-data="projectSearch({{ json_encode($projects) }})">
     <!-- Search Bar -->
     <div class="mx-auto my-10 flex max-w-4xl flex-col gap-3 px-4 font-mono text-white sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
         <!-- Module + Teacher -->
@@ -81,10 +81,10 @@
 </div>
 
 <script>
-function projectSearch(projects, limit) {
+function projectSearch(projects) {
     return {
         projects: projects,
-        searchedProjects: projects.slice(0, limit),
+        searchedProjects: projects,
         search: {
             module: '',
             teacher: '',
@@ -94,7 +94,7 @@ function projectSearch(projects, limit) {
         searchTimeout: null,
 
         init() {
-            this.searchedProjects = this.projects.slice(0, limit);
+            this.searchedProjects = this.projects;
         },
 
         handleSearch() {
@@ -105,14 +105,14 @@ function projectSearch(projects, limit) {
         },
 
         performSearch() {
-            // If all search fields are empty, show limited results
+            // If all search fields are empty, show all results
             if (!this.search.module && !this.search.teacher && !this.search.name && !this.search.username) {
-                this.searchedProjects = this.projects.slice(0, limit);
+                this.searchedProjects = this.projects;
                 return;
             }
 
             // Filter projects based on search criteria
-            const filtered = this.projects.filter(project => {
+            this.searchedProjects = this.projects.filter(project => {
                 const moduleMatch = !this.search.module || 
                     project.module.toLowerCase().includes(this.search.module.toLowerCase());
                 
@@ -128,8 +128,6 @@ function projectSearch(projects, limit) {
 
                 return moduleMatch && teacherMatch && nameMatch && usernameMatch;
             });
-
-            this.searchedProjects = filtered.slice(0, limit);
         }
     };
 }
