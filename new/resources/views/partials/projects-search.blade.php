@@ -1,40 +1,49 @@
 <div x-data="projectSearch({{ json_encode($projects) }}, {{ $limit ?? 10 }})">
     <!-- Search Bar -->
-    <div class="mx-auto my-10 flex max-w-max items-center font-mono text-white">
-        <input
-            type="number"
-            x-model="search.module"
-            @input="handleSearch"
-            placeholder="431"
-            maxlength="3"
-            class="box-content w-[3ch] rounded-l-lg border-2 border-gray-600 bg-gray-700 px-3 py-1 outline-none"
-        >
-        <span class="mx-1">-</span>
-        <input
-            type="text"
-            x-model="search.teacher"
-            @input="handleSearch"
-            placeholder="ober"
-            maxlength="4"
-            class="box-content w-[4ch] border-2 border-gray-600 bg-gray-700 px-3 py-1 outline-none"
-        >
-        <span class="mx-1">-</span>
-        <input
-            type="text"
-            x-model="search.name"
-            @input="handleSearch"
-            placeholder="Linux Cookbook"
-            class="box-content w-[32ch] border-2 border-gray-600 bg-gray-700 px-3 py-1 outline-none"
-        >
-        <span class="mx-1">-</span>
-        <input
-            type="text"
-            x-model="search.username"
-            @input="handleSearch"
-            placeholder="lorenzhohermuth"
-            maxlength="39"
-            class="box-content w-[16ch] rounded-r-lg border-2 border-gray-600 bg-gray-700 px-3 py-1 outline-none"
-        >
+    <div class="mx-auto my-10 flex max-w-4xl flex-col gap-3 px-4 font-mono text-white sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
+        <!-- Module + Teacher -->
+        <div class="flex items-center">
+            <input
+                type="number"
+                x-model="search.module"
+                @input="handleSearch"
+                placeholder="431"
+                maxlength="3"
+                class="box-content w-[3ch] rounded-l-lg border-2 border-gray-600 bg-gray-700 px-3 py-1 outline-none"
+            >
+            <span class="mx-1">-</span>
+            <input
+                type="text"
+                x-model="search.teacher"
+                @input="handleSearch"
+                placeholder="ober"
+                maxlength="4"
+                class="box-content w-[4ch] rounded-r-lg border-2 border-gray-600 bg-gray-700 px-3 py-1 outline-none"
+            >
+        </div>
+
+        <!-- Project Name -->
+        <div class="flex items-center">
+            <input
+                type="text"
+                x-model="search.name"
+                @input="handleSearch"
+                placeholder="Linux Cookbook"
+                class="box-content w-full min-w-0 rounded-lg border-2 border-gray-600 bg-gray-700 px-3 py-1 outline-none sm:w-[32ch]"
+            >
+        </div>
+
+        <!-- Username -->
+        <div class="flex items-center">
+            <input
+                type="text"
+                x-model="search.username"
+                @input="handleSearch"
+                placeholder="lorenzhohermuth"
+                maxlength="39"
+                class="box-content w-full min-w-0 rounded-lg border-2 border-gray-600 bg-gray-700 px-3 py-1 outline-none sm:w-[16ch]"
+            >
+        </div>
     </div>
 
     <!-- Results Count -->
