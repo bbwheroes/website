@@ -9,6 +9,7 @@ use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Forms\Components;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Actions;
 use Filament\Tables;
@@ -29,7 +30,7 @@ class ContributionRequestResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('Request Details')
+                Section::make('Request Details')
                     ->schema([
                         Components\TextInput::make('module')
                             ->label('Module Number')
@@ -53,7 +54,7 @@ class ContributionRequestResource extends Resource
                             ->disabled(),
                     ])
                     ->columns(2),
-                Components\Section::make('Admin Actions')
+                Section::make('Admin Actions')
                     ->schema([
                         Components\Select::make('status')
                             ->options([
