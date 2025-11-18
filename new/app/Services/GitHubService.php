@@ -72,11 +72,12 @@ class GitHubService
                     ->map(function ($repo) {
                         $parts = explode('-', $repo['name']);
                         
-                        // Extract the 4 parts
+                        // Extract the 4 parts: module-teacher-taskname-username
+                        // Username can contain hyphens, but taskname doesn't
                         $module = $parts[0];
                         $teacher = $parts[1];
-                        $username = array_pop($parts); // Last part is username
-                        $taskName = implode('-', array_slice($parts, 2)); // Everything in between
+                        $taskName = $parts[2]; // Third part is the task name
+                        $username = implode('-', array_slice($parts, 3)); // Everything after is username
 
                         return [
                             'id' => $repo['id'],
