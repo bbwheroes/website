@@ -7,11 +7,7 @@
     <h1 class="mb-4 text-center text-3xl text-white md:text-4xl">Create a proposal</h1>
     <p class="my-12 text-gray-400">
         We appreciate that you want to contribute to this network. Please fill out this quick
-        proposal and after a quick review you should get notified. After an
-        approval we run every necessary process to create your environment.
-        <a href="https://github.com/bbwheroes/system/tree/main/processes" target="_blank" class="text-bbw-400 underline duration-100 hover:text-bbw-500">
-            More information here.
-        </a>
+        proposal and after a quick review you should get notified.
     </p>
 
     <form action="{{ route('contribute.store') }}" method="POST" class="flex flex-col gap-6 text-white" x-data="contributeForm()">
