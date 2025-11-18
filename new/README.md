@@ -1,59 +1,166 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BBW Heroes Website
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Where BBW students come together to form a community.
 
-## About Laravel
+## About
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is a modern Laravel application built with:
+- **Laravel 12** - PHP framework
+- **FilamentPHP 4** - Admin panel
+- **Tailwind CSS 4** - Styling
+- **Alpine.js** - Interactive components
+- **SQLite** - Database (can be switched to Turso)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 🎨 Modern, clean design with BBW brand colors
+- 🔍 4-part search bar for filtering projects (module-teacher-taskname-username)
+- 📝 Contribution request form with Discord notifications
+- 👨‍💼 Admin panel for managing users and contribution requests
+- 🔄 GitHub repository integration with 1-hour caching
+- 📱 Responsive design
 
-## Learning Laravel
+## Requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- PHP 8.2 or higher
+- Composer
+- Node.js & npm
+- SQLite (or PostgreSQL/MySQL for production)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd website/new
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
 
-### Premium Partners
+3. **Set up environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. **Configure environment variables**
+   Edit `.env` and set:
+   ```env
+   APP_NAME="BBW Heroes"
+   APP_URL=http://localhost:8000
+   
+   # GitHub API (optional, for fetching repositories)
+   GITHUB_TOKEN=your_github_personal_access_token
+   GITHUB_ORGANIZATION=bbwheroes
+   
+   # Discord Webhook (optional, for notifications)
+   DISCORD_WEBHOOK_URL=your_discord_webhook_url
+   ```
 
-## Contributing
+5. **Create database and run migrations**
+   ```bash
+   touch database/database.sqlite
+   php artisan migrate
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. **Create admin user**
+   ```bash
+   php artisan db:seed --class=AdminUserSeeder
+   ```
+   Default credentials: `admin@bbwheroes.ch` / `password`
 
-## Code of Conduct
+7. **Build assets**
+   ```bash
+   npm run build
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Development
 
-## Security Vulnerabilities
+Run the development server:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer dev
+```
+
+This will start:
+- Laravel development server on http://localhost:8000
+- Vite dev server for hot module replacement
+- Queue worker for background jobs
+
+Or run them separately:
+```bash
+php artisan serve
+npm run dev
+```
+
+## Admin Panel
+
+Access the admin panel at `/admin` with admin credentials.
+
+**Features:**
+- Manage users and assign admin roles
+- Review contribution requests
+- Accept or decline requests
+- Send Discord notifications
+
+## Project Structure
+
+```
+app/
+├── Filament/Resources/     # Admin panel resources
+├── Http/Controllers/       # Web controllers
+├── Models/                 # Eloquent models
+└── Services/              # Business logic (GitHub API)
+
+resources/
+├── css/                   # Tailwind CSS
+├── js/                    # Alpine.js components
+└── views/                 # Blade templates
+
+database/
+└── migrations/            # Database schema
+```
+
+## GitHub Integration
+
+The application fetches repositories from the `bbwheroes` GitHub organization. Only repositories matching the 4-part naming format are displayed:
+
+Format: `{module}-{teacher}-{taskname}-{username}`
+
+Example: `431-ober-linux_cookbook-lorenzhohermuth`
+
+Repositories are cached for 1 hour to reduce API calls.
+
+## Discord Integration
+
+When a contribution request is submitted or processed, a notification is sent to Discord (if webhook URL is configured).
+
+## Customization
+
+### Colors
+
+BBW brand colors are defined in `resources/css/app.css`:
+- Primary: `#b3d800` (bbw-400)
+- Variations: bbw-50 through bbw-900
+
+### Logo
+
+Replace `public/bbwheroes.svg` with your custom logo.
+
+## Deployment
+
+For production deployment:
+
+1. Set `APP_ENV=production` and `APP_DEBUG=false`
+2. Use a production database (PostgreSQL, MySQL, or Turso)
+3. Configure proper cache and session drivers
+4. Set up queue workers
+5. Build production assets: `npm run build`
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT License

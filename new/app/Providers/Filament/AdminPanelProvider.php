@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\IsAdmin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -29,8 +30,20 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => [
+                    50 => '#f2f8c5',
+                    100 => '#e6f18b',
+                    200 => '#d9eb52',
+                    300 => '#cde418',
+                    400 => '#b3d800',
+                    500 => '#8fb600',
+                    600 => '#6b8c00',
+                    700 => '#476200',
+                    800 => '#233900',
+                    900 => '#001000',
+                ],
             ])
+            ->brandName('BBW Heroes Admin')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -54,6 +67,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                IsAdmin::class,
             ]);
     }
 }

@@ -11,7 +11,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://bbwheroes.com",
+    url: "https://bbwheroes.ch",
     site_name: "BBW Heroes",
     description: "Where BBW students come together to form a community.",
   },
