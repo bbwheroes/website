@@ -6,9 +6,10 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components;
+use Filament\Forms\Components;
 use Filament\Schemas\Schema;
 use Filament\Tables;
+use Filament\Actions;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,9 +19,9 @@ class UserResource extends Resource
 
     protected static string | BackedEnum | null  $navigationIcon = 'heroicon-o-users';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 10;
 
-    public static function schema(Schema $schema): Schema
+    public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
@@ -37,11 +38,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create')
-                    ->maxLength(255),
-                Components\Toggle::make('is_admin')
-                    ->label('Administrator')
-                    ->helperText('Administrators can access the admin panel')
-                    ->default(false),
+                    ->maxLength(255)
             ]);
     }
 
@@ -55,29 +52,19 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_admin')
-                    ->label('Admin')
-                    ->boolean()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_admin')
-                    ->label('Administrator')
-                    ->placeholder('All users')
-                    ->trueLabel('Administrators only')
-                    ->falseLabel('Non-administrators only'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -87,7 +74,6 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

@@ -8,8 +8,9 @@ use App\Models\Project;
 use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components;
+use Filament\Forms\Components;
 use Filament\Schemas\Schema;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Http;
@@ -24,7 +25,7 @@ class ContributionRequestResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    public static function schema(Schema $schema): Schema
+    public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
@@ -114,7 +115,7 @@ class ContributionRequestResource extends Resource
                     ->default('pending'),
             ])
             ->actions([
-                Tables\Actions\Action::make('accept')
+                Actions\Action::make('accept')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
@@ -140,7 +141,7 @@ class ContributionRequestResource extends Resource
                             ->success()
                             ->send();
                     }),
-                Tables\Actions\Action::make('decline')
+                Actions\Action::make('decline')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
                     ->requiresConfirmation()
@@ -156,13 +157,13 @@ class ContributionRequestResource extends Resource
                             ->success()
                             ->send();
                     }),
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Actions\ViewAction::make(),
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
