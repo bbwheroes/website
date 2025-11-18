@@ -6,10 +6,10 @@ use App\Filament\Resources\ContributionRequestResource\Pages;
 use App\Models\ContributionRequest;
 use App\Models\Project;
 use BackedEnum;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Http;
@@ -24,37 +24,37 @@ class ContributionRequestResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function schema(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Request Details')
+        return $schema
+            ->components([
+                Components\Section::make('Request Details')
                     ->schema([
-                        Forms\Components\TextInput::make('module')
+                        Components\TextInput::make('module')
                             ->label('Module Number')
                             ->disabled()
                             ->maxLength(3),
-                        Forms\Components\TextInput::make('teacher')
+                        Components\TextInput::make('teacher')
                             ->label('Teacher')
                             ->disabled()
                             ->maxLength(4),
-                        Forms\Components\TextInput::make('task_name')
+                        Components\TextInput::make('task_name')
                             ->label('Task Name')
                             ->disabled(),
-                        Forms\Components\TextInput::make('slugified_task_name')
+                        Components\TextInput::make('slugified_task_name')
                             ->label('Slugified Task Name')
                             ->disabled(),
-                        Forms\Components\TextInput::make('github_username')
+                        Components\TextInput::make('github_username')
                             ->label('GitHub Username')
                             ->disabled(),
-                        Forms\Components\TagsInput::make('collaborators')
+                        Components\TagsInput::make('collaborators')
                             ->label('Collaborators')
                             ->disabled(),
                     ])
                     ->columns(2),
-                Forms\Components\Section::make('Admin Actions')
+                Components\Section::make('Admin Actions')
                     ->schema([
-                        Forms\Components\Select::make('status')
+                        Components\Select::make('status')
                             ->options([
                                 'pending' => 'Pending',
                                 'accepted' => 'Accepted',
@@ -62,7 +62,7 @@ class ContributionRequestResource extends Resource
                             ])
                             ->required()
                             ->default('pending'),
-                        Forms\Components\Textarea::make('admin_notes')
+                        Components\Textarea::make('admin_notes')
                             ->label('Admin Notes')
                             ->rows(3)
                             ->columnSpanFull(),
