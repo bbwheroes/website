@@ -47,7 +47,7 @@
     </div>
 
     <!-- Results Count -->
-    <p class="mb-1 italic text-gray-500">
+    <p class="mb-1 italic text-gray-500 max-w-4xl mx-auto">
         Showing <span class="font-bold" x-text="searchedProjects.length"></span> results
     </p>
 
