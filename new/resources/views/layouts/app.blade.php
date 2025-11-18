@@ -11,14 +11,9 @@
     <div class="border-b border-gray-800">
         <nav class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 font-medium md:px-12">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('bbwheroes.svg') }}" alt="BBW Heroes Logo" class="h-16 w-auto md:h-20">
+                <img src="{{ asset('bbwheroes.svg') }}" alt="BBW Heroes Logo" class="w-auto h-10">
             </a>
             <ul class="flex items-center gap-4 md:gap-8">
-                <li>
-                    <a href="{{ route('projects') }}" class="text-gray-300 duration-100 hover:text-white">
-                        Projects
-                    </a>
-                </li>
                 <li>
                     <a href="https://discord.gg/xbUfU4FYSc" target="_blank" class="flex items-center gap-1 text-gray-300 duration-100 hover:text-white">
                         Discord
@@ -29,7 +24,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('contribute') }}" class="rounded-lg bg-bbw-400 px-3 py-1.5 text-gray-900 duration-100 hover:bg-bbw-500">
+                    <a href="{{ route('contribute') }}" class="rounded-sm bg-bbw-400 px-3 py-1.5 text-gray-900 duration-100 hover:bg-bbw-500">
                         Contribute
                     </a>
                 </li>
