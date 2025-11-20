@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ContributionRequestResource\Pages;
 
 use App\Filament\Resources\ContributionRequestResource;
 use App\Helpers\DiscordHelper;
+use App\Helpers\GitHubHelper;
 use App\Models\Project;
 use Filament\Actions;
 use Filament\Notifications\Notification;
@@ -22,27 +23,40 @@ class ViewContributionRequest extends ViewRecord
                 ->color('success')
                 ->visible(fn () => $this->record->status === 'pending')
                 ->action(function () {
-                    $this->record->update(['status' => 'accepted']);
+                    try {
+                        // Create GitHub repository and invite collaborators
+                        GitHubHelper::setupRepositoryForRequest($this->record);
 
-                    // Create project
-                    Project::create([
-                        'module' => $this->record->module,
-                        'teacher' => $this->record->teacher,
-                        'task_name' => $this->record->task_name,
-                        'slugified_task_name' => $this->record->slugified_task_name,
-                        'username' => $this->record->github_username,
-                        'approved' => true,
-                    ]);
+                        // Update request status
+                        $this->record->update(['status' => 'accepted']);
 
-                    // Send Discord notification
-                    DiscordHelper::sendRequestStatusNotification($this->record, 'accepted');
+                        // Create project
+                        Project::create([
+                            'module' => $this->record->module,
+                            'teacher' => $this->record->teacher,
+                            'task_name' => $this->record->task_name,
+                            'slugified_task_name' => $this->record->slugified_task_name,
+                            'username' => $this->record->github_username,
+                            'approved' => true,
+                        ]);
 
-                    Notification::make()
-                        ->title('Request Accepted')
-                        ->success()
-                        ->send();
+                        // Send Discord notification
+                        DiscordHelper::sendRequestStatusNotification($this->record, 'accepted');
 
-                    return redirect()->route('filament.admin.resources.contribution-requests.index');
+                        Notification::make()
+                            ->title('Request Accepted')
+                            ->body('Repository created and collaborators invited successfully.')
+                            ->success()
+                            ->send();
+
+                        return redirect()->route('filament.admin.resources.contribution-requests.index');
+                    } catch (\Exception $e) {
+                        Notification::make()
+                            ->title('Error Accepting Request')
+                            ->body('Failed to create GitHub repository: ' . $e->getMessage())
+                            ->danger()
+                            ->send();
+                    }
                 }),
             Actions\Action::make('decline')
                 ->label('Decline Request')

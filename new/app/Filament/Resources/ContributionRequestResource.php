@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ContributionRequestResource\Pages;
 use App\Helpers\DiscordHelper;
+use App\Helpers\GitHubHelper;
 use App\Models\ContributionRequest;
 use App\Models\Project;
 use BackedEnum;
@@ -99,31 +100,46 @@ class ContributionRequestResource extends Resource
                 Actions\Action::make('accept')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
+                    ->requiresConfirmation()
                     ->visible(fn (ContributionRequest $record) => $record->status === 'pending')
                     ->action(function (ContributionRequest $record) {
-                        $record->update(['status' => 'accepted']);
+                        try {
+                            // Create GitHub repository and invite collaborators
+                            GitHubHelper::setupRepositoryForRequest($record);
 
-                        // Create project
-                        Project::create([
-                            'module' => $record->module,
-                            'teacher' => $record->teacher,
-                            'task_name' => $record->task_name,
-                            'slugified_task_name' => $record->slugified_task_name,
-                            'username' => $record->github_username,
-                            'approved' => true,
-                        ]);
+                            // Update request status
+                            $record->update(['status' => 'accepted']);
 
-                        // Send Discord notification
-                        DiscordHelper::sendRequestStatusNotification($record, 'accepted');
+                            // Create project
+                            Project::create([
+                                'module' => $record->module,
+                                'teacher' => $record->teacher,
+                                'task_name' => $record->task_name,
+                                'slugified_task_name' => $record->slugified_task_name,
+                                'username' => $record->github_username,
+                                'approved' => true,
+                            ]);
 
-                        Notification::make()
-                            ->title('Request Accepted')
-                            ->success()
-                            ->send();
+                            // Send Discord notification
+                            DiscordHelper::sendRequestStatusNotification($record, 'accepted');
+
+                            Notification::make()
+                                ->title('Request Accepted')
+                                ->body('Repository created and collaborators invited successfully.')
+                                ->success()
+                                ->send();
+                        } catch (\Exception $e) {
+                            Notification::make()
+                                ->title('Error Accepting Request')
+                                ->body('Failed to create GitHub repository: ' . $e->getMessage())
+                                ->danger()
+                                ->send();
+                        }
                     }),
                 Actions\Action::make('decline')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
+                    ->requiresConfirmation()
                     ->visible(fn (ContributionRequest $record) => $record->status === 'pending')
                     ->action(function (ContributionRequest $record) {
                         $record->update(['status' => 'declined']);
