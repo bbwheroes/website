@@ -99,7 +99,6 @@ class ContributionRequestResource extends Resource
                 Actions\Action::make('accept')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
-                    ->requiresConfirmation()
                     ->visible(fn (ContributionRequest $record) => $record->status === 'pending')
                     ->action(function (ContributionRequest $record) {
                         $record->update(['status' => 'accepted']);
@@ -125,7 +124,6 @@ class ContributionRequestResource extends Resource
                 Actions\Action::make('decline')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
-                    ->requiresConfirmation()
                     ->visible(fn (ContributionRequest $record) => $record->status === 'pending')
                     ->action(function (ContributionRequest $record) {
                         $record->update(['status' => 'declined']);
