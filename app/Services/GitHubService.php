@@ -59,11 +59,8 @@ class GitHubService
 
                     $allRepos = array_merge($allRepos, $repos);
                     $page++;
-
-                    // GitHub returns less than per_page items on the last page
                 } while (count($repos) === $perPage);
 
-                // Filter repositories that match the 4-part format: module-teacher-taskname-username
                 return collect($allRepos)
                     ->filter(function ($repo) {
                         $parts = explode('-', $repo['name']);
@@ -72,12 +69,10 @@ class GitHubService
                     ->map(function ($repo) {
                         $parts = explode('-', $repo['name']);
                         
-                        // Extract the 4 parts: module-teacher-taskname-username
-                        // Username can contain hyphens, but taskname doesn't
                         $module = $parts[0];
                         $teacher = $parts[1];
-                        $taskName = $parts[2]; // Third part is the task name
-                        $username = implode('-', array_slice($parts, 3)); // Everything after is username
+                        $taskName = $parts[2];
+                        $username = implode('-', array_slice($parts, 3));
 
                         return [
                             'id' => $repo['id'],
@@ -94,7 +89,6 @@ class GitHubService
                         ];
                     })
                     ->sortBy(function ($repo) {
-                        // Sort by module number (convert to integer for proper numeric sorting)
                         return $repo['module'];
                     })
                     ->values()

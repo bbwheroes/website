@@ -130,16 +130,13 @@ class GitHubHelper
     {
         $repoName = self::generateRepoName($request);
 
-        // Create the repository
         $repoData = self::createRepository($repoName);
 
-        // Prepare list of all collaborators (including the main user)
         $allCollaborators = array_merge(
             [$request->github_username],
             $request->collaborators ?? []
         );
 
-        // Invite all collaborators
         self::inviteCollaborators($repoName, $allCollaborators);
 
         return $repoData;

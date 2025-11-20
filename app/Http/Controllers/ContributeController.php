@@ -25,7 +25,6 @@ class ContributeController extends Controller
             'collaborators.*' => 'string|max:39',
         ]);
 
-        // Create slugified task name
         $slugifiedTaskName = Str::slug($validated['task_name'], '_');
 
         $contributionRequest = ContributionRequest::create([
@@ -38,7 +37,6 @@ class ContributeController extends Controller
             'status' => 'pending',
         ]);
 
-        // Send Discord notification
         DiscordHelper::sendNewRequestNotification($contributionRequest);
 
         return redirect()->route('home')->with('success', 'Your contribution request has been submitted!');

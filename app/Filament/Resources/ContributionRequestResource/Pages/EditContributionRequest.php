@@ -24,13 +24,10 @@ class EditContributionRequest extends EditRecord
                 ->visible(fn () => $this->record->status === 'pending')
                 ->action(function () {
                     try {
-                        // Create GitHub repository and invite collaborators
                         GitHubHelper::setupRepositoryForRequest($this->record);
 
-                        // Update request status
                         $this->record->update(['status' => 'accepted']);
 
-                        // Send Discord notification
                         DiscordHelper::sendRequestStatusNotification($this->record, 'accepted');
 
                         Notification::make()
@@ -57,7 +54,6 @@ class EditContributionRequest extends EditRecord
                 ->action(function () {
                     $this->record->update(['status' => 'declined']);
 
-                    // Send Discord notification
                     DiscordHelper::sendRequestStatusNotification($this->record, 'declined');
 
                     Notification::make()

@@ -103,13 +103,10 @@ class ContributionRequestResource extends Resource
                     ->visible(fn (ContributionRequest $record) => $record->status === 'pending')
                     ->action(function (ContributionRequest $record) {
                         try {
-                            // Create GitHub repository and invite collaborators
                             GitHubHelper::setupRepositoryForRequest($record);
 
-                            // Update request status
                             $record->update(['status' => 'accepted']);
 
-                            // Send Discord notification
                             DiscordHelper::sendRequestStatusNotification($record, 'accepted');
 
                             Notification::make()
@@ -133,7 +130,6 @@ class ContributionRequestResource extends Resource
                     ->action(function (ContributionRequest $record) {
                         $record->update(['status' => 'declined']);
 
-                        // Send Discord notification
                         DiscordHelper::sendRequestStatusNotification($record, 'declined');
 
                         Notification::make()
