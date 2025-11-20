@@ -4,7 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'BBW Heroes - Where BBW IT students come together')</title>
-    <meta name="description" content="Where BBW students come together to form a community.">
+    <meta name="description" content="@yield('description', 'Where BBW IT students come together to form a community.')">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'BBW Heroes - Where BBW IT students come together')">
+    <meta property="og:description" content="@yield('description', 'Where BBW IT students come together to form a community.')">
+    <meta property="og:image" content="{{ asset('og-image.png') }}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', 'BBW Heroes - Where BBW IT students come together')">
+    <meta property="twitter:description" content="@yield('description', 'Where BBW IT students come together to form a community.')">
+    <meta property="twitter:image" content="{{ asset('og-image.png') }}">
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full bg-gray-900">
