@@ -3,7 +3,10 @@
 namespace App\Filament\Resources\ContributionRequestResource\Pages;
 
 use App\Filament\Resources\ContributionRequestResource;
+use App\Helpers\DiscordHelper;
+use App\Models\Project;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewContributionRequest extends ViewRecord
@@ -33,7 +36,7 @@ class ViewContributionRequest extends ViewRecord
                     ]);
 
                     // Send Discord notification
-                    $this->sendDiscordNotification($this->record, 'accepted');
+                    DiscordHelper::sendRequestStatusNotification($this->record, 'accepted');
 
                     Notification::make()
                         ->title('Request Accepted')
@@ -52,7 +55,7 @@ class ViewContributionRequest extends ViewRecord
                     $this->record->update(['status' => 'declined']);
 
                     // Send Discord notification
-                    $this->sendDiscordNotification($this->record, 'declined');
+                    DiscordHelper::sendRequestStatusNotification($this->record, 'declined');
 
                     Notification::make()
                         ->title('Request Declined')
@@ -62,55 +65,5 @@ class ViewContributionRequest extends ViewRecord
                     return redirect()->route('filament.admin.resources.contribution-requests.index');
                 }),
         ];
-    }
-
-    protected function sendDiscordNotification(ContributionRequest $request, string $action): void
-    {
-        $webhookUrl = config('services.discord.webhook_url');
-
-        if (!$webhookUrl) {
-            return;
-        }
-
-        $color = $action === 'accepted' ? 3066993 : 15158332; // Green or Red
-        $adminUrl = route('filament.admin.resources.contribution-requests.edit', ['record' => $request->id]);
-
-        $embed = [
-            'title' => $action === 'accepted' ? '✅ Request Accepted' : '❌ Request Declined',
-            'color' => $color,
-            'fields' => [
-                [
-                    'name' => 'Module',
-                    'value' => $request->module,
-                    'inline' => true,
-                ],
-                [
-                    'name' => 'Teacher',
-                    'value' => $request->teacher,
-                    'inline' => true,
-                ],
-                [
-                    'name' => 'Task',
-                    'value' => $request->task_name,
-                    'inline' => false,
-                ],
-                [
-                    'name' => 'GitHub User',
-                    'value' => $request->github_username,
-                    'inline' => false,
-                ],
-                [
-                    'name' => 'Admin Panel',
-                    'value' => "[View Details]({$adminUrl})",
-                    'inline' => false,
-                ],
-            ],
-            'timestamp' => now()->toIso8601String(),
-        ];
-
-        Http::post($webhookUrl, [
-            'username' => 'BBW Heroes Admin',
-            'embeds' => [$embed],
-        ]);
     }
 }
