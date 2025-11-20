@@ -32,6 +32,8 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 RUN a2enmod rewrite
 
+RUN php artisan migrate
+
 EXPOSE 80
 
 CMD ["apache2-foreground"]
