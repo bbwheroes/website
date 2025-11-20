@@ -95,7 +95,7 @@ class GitHubService
                     })
                     ->sortBy(function ($repo) {
                         // Sort by module number (convert to integer for proper numeric sorting)
-                        return (int) $repo['module'];
+                        return $repo['module'];
                     })
                     ->values()
                     ->toArray();
