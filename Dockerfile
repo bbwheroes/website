@@ -18,6 +18,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl zip ffi
 
+# Configure FFI for turso/libsql
+RUN echo "ffi.enable=preload" > /usr/local/etc/php/conf.d/ffi.ini
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
