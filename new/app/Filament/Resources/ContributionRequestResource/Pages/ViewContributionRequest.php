@@ -20,7 +20,6 @@ class ViewContributionRequest extends ViewRecord
                 ->label('Accept Request')
                 ->icon('heroicon-o-check-circle')
                 ->color('success')
-                ->requiresConfirmation()
                 ->visible(fn () => $this->record->status === 'pending')
                 ->action(function () {
                     $this->record->update(['status' => 'accepted']);
@@ -49,7 +48,6 @@ class ViewContributionRequest extends ViewRecord
                 ->label('Decline Request')
                 ->icon('heroicon-o-x-circle')
                 ->color('danger')
-                ->requiresConfirmation()
                 ->visible(fn () => $this->record->status === 'pending')
                 ->action(function () {
                     $this->record->update(['status' => 'declined']);
