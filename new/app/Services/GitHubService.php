@@ -18,11 +18,11 @@ class GitHubService
 
     /**
      * Fetch repositories from GitHub organization
-     * Cached for 1 hour
+     * Cached for 15 minutes
      */
     public function getRepositories(): array
     {
-        return Cache::remember('github_repositories', 3600, function () {
+        return Cache::remember('github_repositories', 900, function () {
             try {
                 $headers = [];
                 if ($this->token) {
@@ -92,6 +92,10 @@ class GitHubService
                             'created_at' => $repo['created_at'],
                             'updated_at' => $repo['updated_at'],
                         ];
+                    })
+                    ->sortBy(function ($repo) {
+                        // Sort by module number (convert to integer for proper numeric sorting)
+                        return (int) $repo['module'];
                     })
                     ->values()
                     ->toArray();

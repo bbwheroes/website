@@ -6,7 +6,6 @@ use App\Filament\Resources\ContributionRequestResource\Pages;
 use App\Helpers\DiscordHelper;
 use App\Helpers\GitHubHelper;
 use App\Models\ContributionRequest;
-use App\Models\Project;
 use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -109,16 +108,6 @@ class ContributionRequestResource extends Resource
 
                             // Update request status
                             $record->update(['status' => 'accepted']);
-
-                            // Create project
-                            Project::create([
-                                'module' => $record->module,
-                                'teacher' => $record->teacher,
-                                'task_name' => $record->task_name,
-                                'slugified_task_name' => $record->slugified_task_name,
-                                'username' => $record->github_username,
-                                'approved' => true,
-                            ]);
 
                             // Send Discord notification
                             DiscordHelper::sendRequestStatusNotification($record, 'accepted');

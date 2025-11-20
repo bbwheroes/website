@@ -5,7 +5,6 @@ namespace App\Filament\Resources\ContributionRequestResource\Pages;
 use App\Filament\Resources\ContributionRequestResource;
 use App\Helpers\DiscordHelper;
 use App\Helpers\GitHubHelper;
-use App\Models\Project;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
@@ -29,16 +28,6 @@ class ViewContributionRequest extends ViewRecord
 
                         // Update request status
                         $this->record->update(['status' => 'accepted']);
-
-                        // Create project
-                        Project::create([
-                            'module' => $this->record->module,
-                            'teacher' => $this->record->teacher,
-                            'task_name' => $this->record->task_name,
-                            'slugified_task_name' => $this->record->slugified_task_name,
-                            'username' => $this->record->github_username,
-                            'approved' => true,
-                        ]);
 
                         // Send Discord notification
                         DiscordHelper::sendRequestStatusNotification($this->record, 'accepted');
