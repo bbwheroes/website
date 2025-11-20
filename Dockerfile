@@ -28,7 +28,6 @@ RUN npm install && npm run build
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 RUN a2enmod rewrite
-COPY docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
 
