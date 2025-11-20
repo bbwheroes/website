@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'BBW Heroes - Where BBW students come together')</title>
+    <title>@yield('title', 'BBW Heroes - Where BBW IT students come together')</title>
     <meta name="description" content="Where BBW students come together to form a community.">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

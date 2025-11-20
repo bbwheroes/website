@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'BBW Heroes - Where BBW students come together')
+@section('title', 'BBW Heroes - Where BBW IT students come together')
 
 @section('content')
 <section class="px-6 py-16 md:px-12 md:py-32">
     <h1 class="mb-12 text-center text-4xl font-medium text-white md:text-7xl max-w-7xl m-auto">
-        Where BBW students come together to form a community.
+        Where BBW IT students come together to form a community.
     </h1>
     <div class="flex justify-center gap-4">
         <a href="{{ route('contribute') }}" class="rounded-sm bg-bbw-400 px-3 py-1.5 text-gray-900 duration-100 hover:bg-bbw-500">
